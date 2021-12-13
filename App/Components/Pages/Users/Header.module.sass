@@ -1,0 +1,52 @@
+@import "../../../Global/Styles/global"
+
+$class: header
+
+.#{$class}
+	display: flex
+	height: 124px
+	background: #F5F6F9
+
+	&__inner
+		max-width: $max-width
+		width: 100%
+		display: flex
+		margin: auto
+		justify-content: space-around
+		align-items: center
+
+	&__title
+		font-size: 36px
+		font-weight: bold
+		color: $dark-blue-color
+
+	&__btn
+		position: relative
+		top: 0
+		display: flex
+		justify-content: center
+		align-items: center
+		padding: 0 14px
+		height: 44px
+		background: #E4E6EF
+		border-radius: 8px
+		cursor: pointer
+		text-decoration: none
+		text-transform: uppercase
+		color: $blue-color
+		font-size: 12px
+		font-weight: 600
+		transition: .3s background
+		user-select: none
+
+		&:hover
+			background: #dee0e9
+
+		&:active
+			top: 1px
+			background: #dcdde3
+
+	&__btn-icon
+		+size(18px)
+		margin: 0 0 0 11px
+		background: url(./resources/plus.svg)

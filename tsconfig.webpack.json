@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"sourceMap": true,
+		"jsx": "react",
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+
+		"baseUrl": "./App",
+
+		"typeRoots": [
+			"Models", "typings", "node_modules/@types"
+		],
+
+		"paths": {
+			"Components": ["Components"],
+			"Actions": ["Actions"],
+			"ActionCreators": ["ActionCreators"]
+		}
+	}
+}

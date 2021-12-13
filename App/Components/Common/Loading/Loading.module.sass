@@ -1,0 +1,68 @@
+@import "../../../Global/Styles/global"
+
+$loaderSize: 130px
+$loaderSizeSmall: 40px
+$loaderSizeMedium: 60px
+$loaderOffset: 20%
+$loaderOffsetSmall: 10px
+
+.loading
+	+position(absolute, 0)
+	display: flex
+	opacity: .9
+
+	&._mobile
+		position: fixed
+
+	&__inner
+		+size($loaderSize)
+		position: relative
+		margin: auto
+
+	&__loader
+		border: 5px solid #ccc
+		transform: translateZ(0)
+		border-radius: 25px
+
+		&._size_small
+			+position(absolute, $loaderOffset)
+			border-color: #666
+			animation: loaderSmall infinite 2s
+
+			@keyframes loaderSmall
+				0%
+					transform: rotate(0deg)
+				100%
+					transform: rotate(360deg)
+
+		&._size_big
+			+position(absolute, 0)
+			animation: loaderBig infinite 2s
+
+			@keyframes loaderBig
+				0%
+					transform: rotate(360deg)
+				100%
+					transform: rotate(0deg)
+
+	&._type-small
+		.loading
+
+			&__inner
+				+size($loaderSizeSmall)
+
+			&__loader
+				border-width: 2px
+
+				&._size_small
+					+position(absolute, $loaderOffsetSmall)
+
+
+	&._type-medium
+		.loading
+
+			&__inner
+				+size($loaderSizeMedium)
+
+			&__loader
+				border-width: 4px
