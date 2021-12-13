@@ -6,25 +6,33 @@ import { RolesState } from "Store/State/RolesState";
 
 const initialState: RolesState = {
 	itemsInRequest: false,
-	items: []
+	items: [],
+	rolesById: {}
 };
 
-export default handleActions<RolesState, Server.Role>({
+export default handleActions<RolesState, Server.Role[]>({
 	[Actions.getRolesItemsRequestAction.toString()]: (state, action) => {
 		return {
+			...state,
 			itemsInRequest: true
 		};
 	},
 
 	[Actions.getRolesItemsSuccessAction.toString()]: (state, action) => {
+		const rolesById = {};
+		action.payload.forEach(role => {
+			rolesById[role.id] = role.title;
+		});
 		return {
 			itemsInRequest: false,
-			items: action.payload
+			items: action.payload,
+			rolesById: rolesById
 		};
 	},
 
 	[Actions.getRolesItemsFailureAction.toString()]: (state, action) => {
 		return {
+			...state,
 			itemsInRequest: false
 		};
 	}

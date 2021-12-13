@@ -2,6 +2,10 @@ import * as React from "react";
 import * as Server from "Models/ServerInterfaces";
 import * as Tools from "Utils/Tools";
 
+import Moment from 'react-moment';
+import 'moment-timezone';
+import 'moment/locale/ru';
+
 import classNames from "classnames";
 
 import { connect } from "react-redux";
@@ -38,13 +42,13 @@ export class Users extends CustomPage<IUsersProps, {}> {
 		}
 	}
 
-	renderHeader(): JSX.Element {
+	private renderHeader(): JSX.Element {
 		return (
 			<Header title={"Пользователи"} buttonCaption={"Добавить нового пользователя"}/>
 		);
 	}
 
-	renderToolbar(): JSX.Element {
+	private renderToolbar(): JSX.Element {
 		const {users, changeSortOrder} = this.props;
 		return (
 			<div className={styles['users__toolbar']}>
@@ -64,8 +68,61 @@ export class Users extends CustomPage<IUsersProps, {}> {
 		);
 	}
 
-	renderItems(): JSX.Element {
-		const {users} = this.props;
+	private renderTable(): JSX.Element {
+		return (
+			<div className={styles['users__table']}>
+				<div className={styles['users__table-header']}>
+					{this.renderTableHeader()}
+				</div>
+				<div className={styles['users__table-body']}>
+					{this.renderTableBody()}
+				</div>
+			</div>
+		);
+	}
+
+	private renderTableHeader(): JSX.Element {
+		return (
+			<div className={styles['users__table-header']}>
+				<div className={styles['users__table-col']}>
+					№
+				</div>
+				<div className={classNames(styles['users__table-col'], styles['_col_name'])}>
+					ФИО пользователя
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Роль
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Дата рождения
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Место рождения
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Почта
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Телефон
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Регистрация
+				</div>
+				<div className={classNames(styles['users__table-col'])}>
+					Изменение
+				</div>
+				<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>
+					ред.
+				</div>
+				<div className={classNames(styles['users__table-col'], styles['_col_delete'])}>
+					удалить
+				</div>
+			</div>
+		);
+	}
+
+	private renderTableBody(): JSX.Element {
+		const {users, roles} = this.props;
 		let items: JSX.Element[] = [];
 
 		users.items
@@ -89,14 +146,46 @@ export class Users extends CustomPage<IUsersProps, {}> {
 			.forEach((user: Server.User, index: number) => {
 				const fio = Tools.getFIO(user.surname, user.surname, user.middleName);
 				items.push(
-					<div className={styles['users__item']} key={index}>
-						{fio}
+					<div className={styles['users__table-row']} key={index}>
+						<div className={classNames(styles['users__table-col'])}>
+							{index + 1}
+						</div>
+						<div className={classNames(styles['users__table-col'], styles['_col_name'])}>
+							{fio}
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							{user.role ? user.role.title : ""}
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.birthday} />
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							{user.birthPlace}
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							{user.email}
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							{user.phoneNumber}
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.registerDate} />
+						</div>
+						<div className={classNames(styles['users__table-col'])}>
+							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.lastUpdate} />
+						</div>
+						<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>
+							{/*// TODO: редактирование*/}
+						</div>
+						<div className={classNames(styles['users__table-col'], styles['_col_delete'])}>
+							{/*// TODO: удаление*/}
+						</div>
 					</div>
 				);
 			});
 
 		return (
-			<div className={styles['users__list']}>
+			<div className={styles['users__table-body']}>
 				{items}
 			</div>
 		);
@@ -118,7 +207,7 @@ export class Users extends CustomPage<IUsersProps, {}> {
 				{this.renderHeader()}
 				<div className={styles['users__inner']}>
 					{this.renderToolbar()}
-					{this.renderItems()}
+					{this.renderTable()}
 				</div>
 			</section>
 		);

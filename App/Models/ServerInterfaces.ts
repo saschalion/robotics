@@ -10,7 +10,7 @@ export interface User {
 	surname: string;
 	name: string;
 	middleName: string;
-	roleId: ObjectId;
+	role: Role;
 	birthday: string;
 	birthPlace: string;
 	email: string;
