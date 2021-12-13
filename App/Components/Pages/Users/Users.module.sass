@@ -1,28 +1,41 @@
 @import "../../../Global/Styles/global"
 
-.users
-	&__item
-		margin: 30px 0 0
+$class: users
 
-		&:first-child
-			margin: 0
+.#{$class}
+	&__inner
+		max-width: $max-width
+		margin: auto
 
-	&__title
-		margin: 0 0 10px
+	&__toolbar
+		display: flex
+		justify-content: space-between
+		align-items: center
+		height: 106px
+
+	&__toolbar-sort
+		display: flex
+		color: $dark-gray-color
+		font-size: 14px
 		font-weight: 500
-		font-size: 25px
+		cursor: pointer
 
-	&__list-item
-		position: relative
-		margin: 5px 0 0
+		&._desc
+			.#{$class}
+				&__toolbar-sort-icon
+					transform: rotate(180deg)
 
-		&:before
-			+position(absolute, 1px 100% null null)
-			+size(4px)
-			margin: 7px 6px 0 0
-			content: ''
-			background: #000
-			border-radius: 50%
+		&:hover
+			color: $black-color
 
-		&:first-child
-			margin: 0
+	&__toolbar-sort-icon
+		display: flex
+		margin: 0 0 0 9px
+		+size(8px 18px)
+		transition: .1s transform
+		background: url("./resources/arrow.svg") no-repeat 50% / contain
+
+	&__toolbar-count
+		font-size: 14px
+		font-weight: bold
+		color: $dark-gray-color

@@ -20,3 +20,9 @@ export function getUsers(): (dispatcher: Dispatch<{}>) => Promise<{}> {
 			});
 	};
 }
+
+export function changeSortOrder(): (dispatcher: Dispatch<{}>) => Promise<{}> {
+	return (dispatch: Dispatch<{}>) => {
+		return Promise.resolve(dispatch(Actions.changeSortOrderAction()));
+	};
+}

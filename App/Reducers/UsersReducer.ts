@@ -1,4 +1,5 @@
 import { handleActions } from "redux-actions";
+import * as Tools from "Utils/Tools";
 import * as Actions from "Actions/UsersActions";
 import * as Server from "Models/ServerInterfaces";
 
@@ -7,7 +8,8 @@ import { UsersState } from "Store/State/UsersState";
 const initialState: UsersState = {
 	itemsInRequest: false,
 	location: '',
-	items: []
+	items: [],
+	sortedAsc: Tools.readLocalStorage("sortedAsc") == "1"
 };
 
 export default handleActions<UsersState, Server.User>({
@@ -20,12 +22,14 @@ export default handleActions<UsersState, Server.User>({
 
 	[Actions.getUsersItemsRequestAction.toString()]: (state, action) => {
 		return {
+			...state,
 			itemsInRequest: true
 		};
 	},
 
 	[Actions.getUsersItemsSuccessAction.toString()]: (state, action) => {
 		return {
+			...state,
 			itemsInRequest: false,
 			items: action.payload
 		};
@@ -33,7 +37,16 @@ export default handleActions<UsersState, Server.User>({
 
 	[Actions.getUsersItemsFailureAction.toString()]: (state, action) => {
 		return {
+			...state,
 			itemsInRequest: false
+		};
+	},
+
+	[Actions.changeSortOrderAction.toString()]: (state, action) => {
+		Tools.writeLocalStorage("sortedAsc", state.sortedAsc ? "1" : "0");
+		return {
+			...state,
+			sortedAsc: !state.sortedAsc
 		};
 	}
 }, initialState);

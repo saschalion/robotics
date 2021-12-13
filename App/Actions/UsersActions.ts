@@ -11,3 +11,6 @@ export const getUsersItemsFailureAction = createAction<{ error: string }>(GET_US
 
 export const CHANGED_ROUTE_ACTION = 'CHANGED_ROUTE_ACTION';
 export const getChangeRouteAction = createAction(CHANGED_ROUTE_ACTION);
+
+export const CHANGE_SORT_ORDER_ACTION = 'CHANGE_SORT_ORDER_ACTION';
+export const changeSortOrderAction = createAction(CHANGE_SORT_ORDER_ACTION);

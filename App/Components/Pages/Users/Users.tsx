@@ -10,7 +10,7 @@ import { Dispatch } from "redux";
 import { Loading } from "Components/Common/Loading/Loading";
 import { StoreState } from "Store/StoreState";
 import { UsersState } from "Store/State/UsersState";
-import { getUsers } from "ActionCreators/UsersActionCreators";
+import { getUsers, changeSortOrder } from "ActionCreators/UsersActionCreators";
 import { RolesState } from "Store/State/RolesState";
 import { getRoles } from "ActionCreators/RolesActionCreators";
 import { Header } from "./Header";
@@ -23,12 +23,7 @@ interface IUsersProps
 	users?: UsersState;
 	getRoles?: () => Promise<{}>;
 	roles?: RolesState;
-}
-
-interface IUsersItem
-{
-	title?: string;
-	items: string[];
+	changeSortOrder?: () => Promise<{}>;
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -45,6 +40,26 @@ export class Users extends CustomPage<IUsersProps, {}> {
 	renderHeader(): JSX.Element {
 		return (
 			<Header title={"Пользователи"} buttonCaption={"Добавить нового пользователя"}/>
+		);
+	}
+
+	renderToolbar(): JSX.Element {
+		const {users, changeSortOrder} = this.props;
+		return (
+			<div className={styles['users__toolbar']}>
+				<div
+					className={classNames(styles['users__toolbar-sort'], !users.sortedAsc && styles['_desc'])}
+					onClick={() => {
+						changeSortOrder();
+					}}
+				>
+					Сортировать от А до Я
+					<i className={styles['users__toolbar-sort-icon']} />
+				</div>
+				<div className={styles['users__toolbar-count']}>
+					{`Всего пользователей: ${users.items.length}`}
+				</div>
+			</div>
 		);
 	}
 
@@ -82,9 +97,12 @@ export class Users extends CustomPage<IUsersProps, {}> {
 		}
 
 		return (
-			<section className={ styles['users'] }>
+			<section className={styles['users']}>
 				{this.renderHeader()}
-				{this.renderItems()}
+				<div className={styles['users__inner']}>
+					{this.renderToolbar()}
+					{this.renderItems()}
+				</div>
 			</section>
 		);
 	}
@@ -101,5 +119,6 @@ function mapDispatchToProps(dispatch: Dispatch<{}>): IUsersProps {
 	return {
 		getUsers: () => dispatch(getUsers()),
 		getRoles: () => dispatch(getRoles()),
+		changeSortOrder: () => dispatch(changeSortOrder()),
 	};
 }
