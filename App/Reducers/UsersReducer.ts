@@ -9,7 +9,7 @@ const initialState: UsersState = {
 	itemsInRequest: false,
 	location: '',
 	items: [],
-	sortedAsc: Tools.readLocalStorage("sortedAsc") == "1"
+	sortedAsc: Tools.readLocalStorage("sortedAsc", "1") == "1"
 };
 
 export default handleActions<UsersState, Server.User>({
@@ -43,7 +43,7 @@ export default handleActions<UsersState, Server.User>({
 	},
 
 	[Actions.changeSortOrderAction.toString()]: (state, action) => {
-		Tools.writeLocalStorage("sortedAsc", state.sortedAsc ? "1" : "0");
+		Tools.writeLocalStorage("sortedAsc", state.sortedAsc ? "0" : "1");
 		return {
 			...state,
 			sortedAsc: !state.sortedAsc

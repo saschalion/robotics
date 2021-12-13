@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Server from "Models/ServerInterfaces";
+import * as Tools from "Utils/Tools";
 
 import classNames from "classnames";
 
@@ -64,16 +65,32 @@ export class Users extends CustomPage<IUsersProps, {}> {
 	}
 
 	renderItems(): JSX.Element {
+		const {users} = this.props;
 		let items: JSX.Element[] = [];
 
-		this.props.users.items
+		users.items
 			.sort((item1, item2) => {
-				return item1.surname < item2.surname ? 1 : -1;
+				const fio1 = Tools.getFIO(item1.surname, item1.surname, item1.middleName);
+				const fio2 = Tools.getFIO(item1.surname, item1.surname, item1.middleName);
+				if (users.sortedAsc) {
+					if (fio1 == fio2) {
+						return item1.id < item2.id ? -1 : 1;
+					} else {
+						return fio1 < fio2 ? -1 : 1;
+					}
+				} else {
+					if (fio1 == fio2) {
+						return item1.id < item2.id ? 1 : -1;
+					} else {
+						return fio1 < fio2 ? 1 : -1;
+					}
+				}
 			})
 			.forEach((user: Server.User, index: number) => {
+				const fio = Tools.getFIO(user.surname, user.surname, user.middleName);
 				items.push(
 					<div className={styles['users__item']} key={index}>
-						{user.surname}
+						{fio}
 					</div>
 				);
 			});
