@@ -197,7 +197,7 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
 							<div className={styles['users__table-col-inner']}>
-								<Moment format={'DD.MM.YYYY'} locale="ru" date={user.lastUpdate} />
+								<Moment format={'DD.MM.YY'} locale="ru" date={user.lastUpdate} />
 							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>

@@ -50,3 +50,8 @@ $class: header
 		+size(18px)
 		margin: 0 0 0 11px
 		background: url(./resources/plus.svg) no-repeat 50% / contain
+
+@media screen and (max-width: $max-width)
+	.#{$class}
+		&__inner
+			margin: 0 20px
