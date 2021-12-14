@@ -135,8 +135,8 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 
 		users.items
 			.sort((item1, item2) => {
-				const fio1 = Tools.getFIO(item1.surname, item1.surname, item1.middleName);
-				const fio2 = Tools.getFIO(item2.surname, item2.surname, item2.middleName);
+				const fio1 = Tools.getFIO(item1.surname, item1.name, item1.middleName);
+				const fio2 = Tools.getFIO(item2.surname, item2.name, item2.middleName);
 				if (users.sortedAsc) {
 					if (fio1 == fio2) {
 						return item1.id < item2.id ? -1 : 1;
@@ -152,7 +152,7 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 				}
 			})
 			.forEach((user: Server.User, index: number) => {
-				const fio = Tools.getFIO(user.surname, user.surname, user.middleName);
+				const fio = Tools.getFIO(user.surname, user.name, user.middleName);
 				items.push(
 					<div className={styles['users__table-row']} key={index}>
 						<div className={classNames(styles['users__table-col'], styles['_col_num'])}>
@@ -227,7 +227,7 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 	private renderConfirm(): JSX.Element {
 		if (!this.state.toDeleteUser) return null;
 		const user = this.state.toDeleteUser;
-		const fio = `${user.surname} ${user.surname} ${user.middleName}`;
+		const fio = `${user.surname} ${user.name} ${user.middleName}`;
 		return (
 			<UXConfirm
 				text={`Вы уверены, что хотите удалить пользователя <strong>${fio}</strong>?`}

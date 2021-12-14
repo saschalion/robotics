@@ -1,0 +1,57 @@
+@import "../../../Global/Styles/global"
+
+$class: btn
+
+.#{$class}
+	position: relative
+	top: 0
+	display: flex
+	justify-content: center
+	align-items: center
+	padding: 0 14px
+	height: 35px
+	background: #E4E6EF
+	border-radius: $border-radius
+	cursor: pointer
+	text-decoration: none
+	text-transform: uppercase
+	color: $blue-color
+	font-size: 12px
+	font-weight: 600
+	transition: .3s background
+	user-select: none
+	box-sizing: border-box
+
+	&._full-width
+		width: 100%
+
+	&._size_middle
+		height: 44px
+
+	&._size_big
+		height: 60px
+
+	&._theme_primary
+		background: $blue-color
+		color: #fff
+
+		&:hover
+			background: $dark-blue-color
+
+	&:first-child
+		margin: 0
+
+	&:hover
+		background: #dee0e9
+
+	&:active
+		top: 1px
+		background: #dcdde3
+
+	&__icon
+		+size(18px)
+		margin: 0 0 0 11px
+		background: no-repeat 50% / contain
+
+		&._icon_plus
+			background-image: url(./resources/plus-blue.svg)

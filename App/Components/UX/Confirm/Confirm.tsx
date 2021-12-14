@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import {KeyCodes} from 'Global/Types';
+import {UXButton} from 'Components/UX/Button/Button';
 
 const styles = require("./Confirm.module.sass");
 
@@ -102,12 +103,18 @@ export class UXConfirm extends React.Component<ConfirmProps, ConfirmState> {
 					</div>
 
 					<div className={ styles['confirm__foot'] }>
-						<div className={classNames(styles['confirm__btn'], styles['_primary'])} onClick={() => this.onCancel()}>
-							Нет
-						</div>
-						<div className={classNames(styles['confirm__btn'])} onClick={() => this.onComplete()}>
-							Да
-						</div>
+						<UXButton
+							caption={"Нет"}
+							theme={"primary"}
+							onClick={() => this.onCancel()}
+							fullWidth
+						/>
+						<UXButton
+							caption={"Да"}
+							style={{marginLeft: "10px"}}
+							onClick={() => this.onComplete()}
+							fullWidth
+						/>
 					</div>
 				</div>
 

@@ -1,19 +1,16 @@
 import * as React from "react";
 
-import { BaseComponent } from "Components/BaseComponent";
+import {BaseComponent} from "Components/BaseComponent";
 
-interface IIconProps
-{
+interface IIconProps {
 	icon: string;
 	width?: number;
 	height?: number;
 	useClassName?: string;
 }
 
-export class Icon extends BaseComponent<IIconProps, {}>
-{
-	doRender(): React.ReactElement<{}>
-	{
+export class Icon extends BaseComponent<IIconProps, {}> {
+	doRender(): React.ReactElement<{}> {
 		const { useClassName = 'icon', icon, width, height } = this.props;
 
 		return (

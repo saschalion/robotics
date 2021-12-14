@@ -1,6 +1,8 @@
 import * as React from "react";
 
-import { BaseComponent } from "Components/BaseComponent";
+import {BaseComponent} from "Components/BaseComponent";
+import {UXButton} from 'Components/UX/Button/Button';
+
 const styles: any = require("./Header.module.sass");
 
 interface IHeaderProps {
@@ -18,12 +20,12 @@ export class Header extends BaseComponent<IHeaderProps, {}> {
 					<div className={styles['header__title']}>
 						{title}
 					</div>
-					<a className={styles['header__btn']}>
-						<div className={styles['header__btn-caption']}>
-							{buttonCaption}
-						</div>
-						<div className={styles['header__btn-icon']} />
-					</a>
+					<UXButton
+						caption={buttonCaption}
+						onClick={() => {}}
+						size={"middle"}
+						icon={"plus"}
+					/>
 				</div>
 			</div>
 		);
