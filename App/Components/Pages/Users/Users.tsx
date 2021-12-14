@@ -71,12 +71,8 @@ export class Users extends CustomPage<IUsersProps, {}> {
 	private renderTable(): JSX.Element {
 		return (
 			<div className={styles['users__table']}>
-				<div className={styles['users__table-header']}>
-					{this.renderTableHeader()}
-				</div>
-				<div className={styles['users__table-body']}>
-					{this.renderTableBody()}
-				</div>
+				{this.renderTableHeader()}
+				{this.renderTableBody()}
 			</div>
 		);
 	}
@@ -84,7 +80,7 @@ export class Users extends CustomPage<IUsersProps, {}> {
 	private renderTableHeader(): JSX.Element {
 		return (
 			<div className={styles['users__table-header']}>
-				<div className={styles['users__table-col']}>
+				<div className={classNames(styles['users__table-col'], styles['_col_num'])}>
 					№
 				</div>
 				<div className={classNames(styles['users__table-col'], styles['_col_name'])}>
@@ -93,7 +89,7 @@ export class Users extends CustomPage<IUsersProps, {}> {
 				<div className={classNames(styles['users__table-col'])}>
 					Роль
 				</div>
-				<div className={classNames(styles['users__table-col'])}>
+				<div className={classNames(styles['users__table-col'], styles['_col_birth-date'])}>
 					Дата рождения
 				</div>
 				<div className={classNames(styles['users__table-col'])}>
@@ -102,13 +98,13 @@ export class Users extends CustomPage<IUsersProps, {}> {
 				<div className={classNames(styles['users__table-col'])}>
 					Почта
 				</div>
-				<div className={classNames(styles['users__table-col'])}>
+				<div className={classNames(styles['users__table-col'], styles['_col_phone'])}>
 					Телефон
 				</div>
-				<div className={classNames(styles['users__table-col'])}>
+				<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
 					Регистрация
 				</div>
-				<div className={classNames(styles['users__table-col'])}>
+				<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
 					Изменение
 				</div>
 				<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>
@@ -128,7 +124,7 @@ export class Users extends CustomPage<IUsersProps, {}> {
 		users.items
 			.sort((item1, item2) => {
 				const fio1 = Tools.getFIO(item1.surname, item1.surname, item1.middleName);
-				const fio2 = Tools.getFIO(item1.surname, item1.surname, item1.middleName);
+				const fio2 = Tools.getFIO(item2.surname, item2.surname, item2.middleName);
 				if (users.sortedAsc) {
 					if (fio1 == fio2) {
 						return item1.id < item2.id ? -1 : 1;
@@ -147,38 +143,56 @@ export class Users extends CustomPage<IUsersProps, {}> {
 				const fio = Tools.getFIO(user.surname, user.surname, user.middleName);
 				items.push(
 					<div className={styles['users__table-row']} key={index}>
-						<div className={classNames(styles['users__table-col'])}>
-							{index + 1}
+						<div className={classNames(styles['users__table-col'], styles['_col_num'])}>
+							<div className={styles['users__table-col-inner']}>
+								{index + 1}
+							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_name'])}>
-							{fio}
+							<div className={styles['users__table-col-inner']}>
+								{fio}
+							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'])}>
-							{user.role ? user.role.title : ""}
+							<div className={styles['users__table-col-inner']}>
+								{user.role ? user.role.title : ""}
+							</div>
+						</div>
+						<div className={classNames(styles['users__table-col'], styles['_col_birth-date'])}>
+							<div className={styles['users__table-col-inner']}>
+								<Moment format={'DD.MM.YYYY'} locale="ru" date={user.birthday} />
+							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'])}>
-							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.birthday} />
+							<div className={styles['users__table-col-inner']}>
+								{user.birthPlace}
+							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'])}>
-							{user.birthPlace}
+							<div className={styles['users__table-col-inner']}>
+								{user.email}
+							</div>
 						</div>
-						<div className={classNames(styles['users__table-col'])}>
-							{user.email}
+						<div className={classNames(styles['users__table-col'], styles['_col_phone'])}>
+							<div className={styles['users__table-col-inner']}>
+								{user.phoneNumber}
+							</div>
 						</div>
-						<div className={classNames(styles['users__table-col'])}>
-							{user.phoneNumber}
+						<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
+							<div className={styles['users__table-col-inner']}>
+								<Moment format={'DD.MM.YYYY'} locale="ru" date={user.registerDate} />
+							</div>
 						</div>
-						<div className={classNames(styles['users__table-col'])}>
-							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.registerDate} />
-						</div>
-						<div className={classNames(styles['users__table-col'])}>
-							<Moment format={'DD.MM.YYYY'} locale="ru" date={user.lastUpdate} />
+						<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
+							<div className={styles['users__table-col-inner']}>
+								<Moment format={'DD.MM.YYYY'} locale="ru" date={user.lastUpdate} />
+							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>
-							{/*// TODO: редактирование*/}
+							<div className={classNames(styles['users__table-btn'], styles['_icon_edit'])} />
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_delete'])}>
-							{/*// TODO: удаление*/}
+							<div className={classNames(styles['users__table-btn'], styles['_icon_delete'])} />
 						</div>
 					</div>
 				);

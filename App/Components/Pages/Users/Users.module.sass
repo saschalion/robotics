@@ -7,6 +7,7 @@ $class: users
 		max-width: $max-width
 		margin: auto
 
+	// Тулбар
 	&__toolbar
 		display: flex
 		justify-content: space-between
@@ -39,3 +40,104 @@ $class: users
 		font-size: 14px
 		font-weight: bold
 		color: $dark-gray-color
+
+	// Таблица
+	&__table
+		width: 100%
+		margin: 0 0 60px
+		display: flex
+		flex-direction: column
+
+	&__table-header
+		width: 100%
+		display: flex
+		justify-content: space-between
+		.#{$class}
+			&__table-col
+				padding: 0 12px 10px
+				font-weight: bold
+				color: #B7BAC5
+				font-size: 12px
+				border-color: transparent
+
+	&__table-row
+		display: flex
+		flex-direction: row
+		margin: 12px 0 0
+		border: 1px solid #DEE5EF
+		border-radius: $border-radius
+		justify-content: space-between
+
+		&:first-child
+			margin: 0
+
+	&__table-col
+		display: flex
+		width: 13%
+		border-left: 1px solid
+		box-sizing: border-box
+		white-space: nowrap
+
+		&:first-child,
+		&._col_name
+			border: none
+
+		&._col_num
+			width: 10px
+
+			.#{$class}
+				&__table-col-inner
+					overflow: visible
+
+		&._col_edit,
+		&._col_delete
+			width: 60px
+			min-width: 60px
+			justify-content: center
+			padding-right: 0
+			padding-left: 0
+
+		&._col_date
+			width: 110px
+			max-width: 110px
+
+		&._col_birth-date
+			width: 130px
+			max-width: 130px
+
+	&__table-body
+		.#{$class}
+			&__table-col
+				padding: 0 12px
+				border-color: #DEE5EF
+				font-size: 14px
+				color: #5D606C
+
+				&._col_edit,
+				&._col_delete
+					padding-right: 0
+					padding-left: 0
+
+	&__table-col-inner
+		padding: 20px 0
+		white-space: nowrap
+		overflow: hidden
+		text-overflow: ellipsis
+
+	&__table-btn
+		display: block
+		+size(100%)
+		background: no-repeat 50%
+		cursor: pointer
+
+		&._icon_edit
+			background-image: url(./resources/edit-gray.svg)
+
+			&:hover
+				background-image: url(./resources/edit-blue.svg)
+
+		&._icon_delete
+			background-image: url(./resources/delete-gray.svg)
+
+			&:hover
+				background-image: url(./resources/delete-blue.svg)
