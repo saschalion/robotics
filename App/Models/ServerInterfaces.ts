@@ -23,3 +23,8 @@ export interface Role {
 	id: ObjectId;
 	title: string;
 }
+
+export interface Success {
+	status: number;
+	message: string;
+}

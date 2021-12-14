@@ -9,6 +9,14 @@ export const getUsersItemsRequestAction = createAction(GET_USERS_ITEMS_REQUEST_A
 export const getUsersItemsSuccessAction = createAction<Server.User[]>(GET_USERS_ITEMS_SUCCESS_ACTION);
 export const getUsersItemsFailureAction = createAction<{ error: string }>(GET_USERS_ITEMS_FAILURE_ACTION);
 
+export const DELETE_USER_REQUEST_ACTION = 'DELETE_USER_REQUEST_ACTION';
+export const DELETE_USER_SUCCESS_ACTION = 'DELETE_USER_SUCCESS_ACTION';
+export const DELETE_USER_FAILURE_ACTION = 'DELETE_USER_FAILURE_ACTION';
+
+export const deleteUserRequestAction = createAction(DELETE_USER_REQUEST_ACTION);
+export const deleteUserSuccessAction = createAction<Server.Success>(DELETE_USER_SUCCESS_ACTION);
+export const deleteUserFailureAction = createAction<{ error: string }>(DELETE_USER_FAILURE_ACTION);
+
 export const CHANGED_ROUTE_ACTION = 'CHANGED_ROUTE_ACTION';
 export const getChangeRouteAction = createAction(CHANGED_ROUTE_ACTION);
 

@@ -1,0 +1,149 @@
+@import "../../../Global/Styles/global"
+
+.confirm
+	+position(fixed, 0)
+	display: flex
+	align-items: center
+	justify-content: center
+	z-index: 300
+	outline: none
+
+	&__overlay
+		top: 0
+		right: 0
+		bottom: 0
+		left: 0
+		background: #000
+		opacity: .2
+
+	&._size_small
+		.confirm
+			&__inner
+				width: 500px
+
+			&__content
+				padding: 15px
+
+	&__inner
+		position: relative
+		width: 1000px
+		background: #fff
+		z-index: 2
+		box-shadow: 0 10px 20px rgba(69, 73, 106, 0.2)
+		border-radius: $border-radius
+		overflow: hidden
+
+		&._state_loaded
+			animation: form-fly-up 1.3s linear alternate both
+			@keyframes modalContent
+				0%
+					transform: scale(0)
+				100%
+					transform: scale(1)
+
+		&._state_error
+			border-color: #E85858
+			animation: errorWindow .6s
+			@keyframes errorWindow
+				0%, 100%
+					transform: translateX(0)
+
+				10%, 30%, 50%, 70%, 90%
+					transform: translateX(-10px)
+
+				20%, 40%, 60%, 80%
+					transform: translateX(10px)
+
+	&__head
+		display: flex
+		padding: 12px 15px
+		color: $dark-blue-color
+		border-bottom: 1px solid #DEE5EF
+
+		&._type_error
+			background: #c30000
+
+		&._type_success
+			background: #619a38
+
+		&._type_warning
+			background: #ea9314
+
+			.modal__title
+				color: #fff
+
+	&__title
+		margin: 0
+		font-size: 14px
+		font-weight: bold
+
+	&__close
+		position: absolute
+		top: 0
+		right: 0
+		width: 30px
+		height: 30px
+		background-size: 12px
+		cursor: pointer
+		transition: .3s background-color
+
+		&:hover
+			background-size: 14px
+			background-color: rgba(#000, .15)
+
+	&__content
+		font-size: 14px
+		line-height: 22px
+
+	&__content-title
+		margin: 0 0 10px
+		font-size: 14px
+
+	&__foot
+		display: flex
+		justify-content: flex-end
+		margin: 10px 15px
+		height: 35px
+		font-size: 12px
+
+	&__overlay
+		position: absolute
+		z-index: 1
+
+	&__btn
+		margin: 0 0 0 10px
+		position: relative
+		top: 0
+		display: flex
+		justify-content: center
+		align-items: center
+		padding: 0 14px
+		width: 100%
+		height: 100%
+		background: #E4E6EF
+		border-radius: $border-radius
+		cursor: pointer
+		text-decoration: none
+		text-transform: uppercase
+		color: $blue-color
+		font-size: 12px
+		font-weight: 600
+		transition: .3s background
+		user-select: none
+
+		&._primary
+			background: $blue-color
+			color: #fff
+
+			&:hover
+				background: $dark-blue-color
+
+		&:first-child
+			margin: 0
+
+		&:hover
+			background: #dee0e9
+
+		&:active
+			top: 1px
+			background: #dcdde3

@@ -15,24 +15,36 @@ import { Dispatch } from "redux";
 import { Loading } from "Components/Common/Loading/Loading";
 import { StoreState } from "Store/StoreState";
 import { UsersState } from "Store/State/UsersState";
-import { getUsers, changeSortOrder } from "ActionCreators/UsersActionCreators";
+import { getUsers, changeSortOrder, deleteUser } from "ActionCreators/UsersActionCreators";
 import { RolesState } from "Store/State/RolesState";
 import { getRoles } from "ActionCreators/RolesActionCreators";
 import { Header } from "./Header";
+import { UXConfirm } from "Components/UX/Confirm/Confirm";
 
 const styles: any = require("./Users.module.sass");
 
-interface IUsersProps
-{
+interface IUsersProps {
 	getUsers?: () => Promise<{}>;
 	users?: UsersState;
 	getRoles?: () => Promise<{}>;
+	deleteUser?: (id: Server.ObjectId) => Promise<{}>;
 	roles?: RolesState;
 	changeSortOrder?: () => Promise<{}>;
 }
 
+interface IUsersState {
+	toDeleteUser?: Server.User;
+}
+
 @connect(mapStateToProps, mapDispatchToProps)
-export class Users extends CustomPage<IUsersProps, {}> {
+export class Users extends CustomPage<IUsersProps, IUsersState> {
+	constructor(props: IUsersProps) {
+		super(props);
+		this.state = {
+			toDeleteUser: null
+		};
+	}
+
 	componentDidMount() {
 		const {users, roles} = this.props;
 
@@ -192,7 +204,14 @@ export class Users extends CustomPage<IUsersProps, {}> {
 							<div className={classNames(styles['users__table-btn'], styles['_icon_edit'])} />
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_delete'])}>
-							<div className={classNames(styles['users__table-btn'], styles['_icon_delete'])} />
+							<div
+								className={classNames(styles['users__table-btn'], styles['_icon_delete'])}
+								onClick={() => {
+									this.setState({
+										toDeleteUser: user
+									});
+								}}
+							/>
 						</div>
 					</div>
 				);
@@ -205,6 +224,30 @@ export class Users extends CustomPage<IUsersProps, {}> {
 		);
 	}
 
+	private renderConfirm(): JSX.Element {
+		if (!this.state.toDeleteUser) return null;
+		const user = this.state.toDeleteUser;
+		const fio = `${user.surname} ${user.surname} ${user.middleName}`;
+		return (
+			<UXConfirm
+				text={`Вы уверены, что хотите удалить пользователя <strong>${fio}</strong>?`}
+				onComplete={() => {
+					this.props.deleteUser(user.id)
+						.then(() => {
+							this.setState({toDeleteUser: null});
+							this.props.getUsers();
+						})
+						.catch(() => {
+							this.setState({toDeleteUser: null});
+						})
+				}}
+				onCancel={() => {
+					this.setState({toDeleteUser: null});
+				}}
+			/>
+		);
+	}
+
 	renderContent(): React.ReactElement<{}> {
 		const { users } = this.props;
 
@@ -212,18 +255,25 @@ export class Users extends CustomPage<IUsersProps, {}> {
 			return <Loading />;
 		}
 
-		if (!users.items.length) {
-			return null;
-		}
-
 		return (
-			<section className={styles['users']}>
-				{this.renderHeader()}
-				<div className={styles['users__inner']}>
-					{this.renderToolbar()}
-					{this.renderTable()}
-				</div>
-			</section>
+			<div>
+				<section className={styles['users']}>
+					{this.renderHeader()}
+					<div className={styles['users__inner']}>
+						{
+							this.props.users.items.length ?
+							<div>
+								{this.renderToolbar()}
+								{this.renderTable()}
+							</div> :
+							<div className={styles['users__empty']}>
+								Нет пользователей
+							</div>
+						}
+					</div>
+				</section>
+				{this.renderConfirm()}
+			</div>
 		);
 	}
 }
@@ -240,5 +290,6 @@ function mapDispatchToProps(dispatch: Dispatch<{}>): IUsersProps {
 		getUsers: () => dispatch(getUsers()),
 		getRoles: () => dispatch(getRoles()),
 		changeSortOrder: () => dispatch(changeSortOrder()),
+		deleteUser: (id) => dispatch(deleteUser(id)),
 	};
 }

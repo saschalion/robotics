@@ -42,6 +42,12 @@ export default handleActions<UsersState, Server.User>({
 		};
 	},
 
+	[Actions.deleteUserSuccessAction.toString()]: (state, action) => {
+		return {
+			...state
+		};
+	},
+
 	[Actions.changeSortOrderAction.toString()]: (state, action) => {
 		Tools.writeLocalStorage("sortedAsc", state.sortedAsc ? "0" : "1");
 		return {
