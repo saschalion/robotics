@@ -78,3 +78,7 @@ export enum KeyCodes {
 	KEY_RIGHT_BRACKET = 221,
 	KEY_UPPER_COMMA = 222,
 }
+
+export interface ConstructorOf<T> {
+	new (...args: any[]): T;
+}

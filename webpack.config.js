@@ -2,9 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const nodeModulesPath = path.join(__dirname, 'node_modules');
-const isProduction = process.env.NODE_ENV == "production";
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
@@ -22,9 +19,7 @@ const config = {
 			'babel-polyfill',
 			path.join(__dirname, 'babel', 'babelhelpers.js')
 		],
-		app: [
-			path.join(__dirname, 'App', 'Index.tsx')
-		]
+		app: path.join(__dirname, 'App', 'Index.tsx')
 	},
 
 	resolve: {
@@ -34,7 +29,7 @@ const config = {
 
 	output: {
 		path: path.join(__dirname, '/build'),
-		filename: staticDir + '[name]_[chunkhash].js',
+		filename: staticDir + '[name]_[chunkhash:8].js',
 		publicPath: '/'
 	},
 
@@ -48,11 +43,7 @@ const config = {
 			},
 			{
 				test: /\.tsx?$/,
-				loaders: ["babel-loader?cacheDirectory", "awesome-typescript-loader?tsconfig=tsconfig.webpack.json&useCache=true"]
-			},
-			{
-				test: /\.css$/,
-				loaders: ["style-loader", "css-loader?minimize"]
+				loaders: ["babel-loader?cacheDirectory", "ts-loader"]
 			},
 			{
 				test: /\.sass/,
@@ -70,7 +61,7 @@ const config = {
 						{
 							loader: 'postcss-loader',
 							options: {
-								plugins: [autoprefixer({ browsers: ['last 2 versions', '> 5%'] })],
+								plugins: [autoprefixer()],
 								sourceMap: true
 							}
 						},
@@ -93,7 +84,7 @@ const config = {
 							loader: 'css-loader',
 							options: {
 								sourceMap: true,
-								localIdentName: '[name]__[local]___[hash:base64:5]',
+								localIdentName: '[hash:base64:5]',
 								modules: true,
 								importLoaders: true,
 								minimize: true
@@ -102,7 +93,7 @@ const config = {
 						{
 							loader: 'postcss-loader',
 							options: {
-								plugins: [autoprefixer({ browsers: ['last 2 versions', '> 5%'] })],
+								plugins: [autoprefixer()],
 								sourceMap: false
 							}
 						},
@@ -117,7 +108,7 @@ const config = {
 			},
 			{
 				test: /\.(jpg|png|woff|eot|ttf|svg|gif)$/,
-				loader: "file-loader?name=" + staticDir + "[name]_[hash].[ext]"
+				loader: "file-loader?name=" + staticDir + "[name]_[hash:10].[ext]"
 			}
 		]
 	},
@@ -125,7 +116,7 @@ const config = {
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendors',
-			filename: staticDir + '/vendors_[hash].js'
+			filename: staticDir + '/vendors_[hash:8].js'
 		}),
 
 		new HtmlWebpackPlugin({
@@ -138,7 +129,7 @@ const config = {
 		}),
 
 		new ExtractTextPlugin({
-			filename: staticDir + 'styles_[hash].css'
+			filename: staticDir + 'styles_[hash:8].css'
 		}),
 
 		new webpack.optimize.UglifyJsPlugin({

@@ -4,6 +4,7 @@ import { StoreState } from "Store/StoreState";
 
 import { BaseComponent } from "Components/BaseComponent";
 import { CHANGED_ROUTE_ACTION } from "Actions/UsersActions";
+import {ModalLayerController} from "Components/UX/ModalBox/ModalBox";
 
 interface IMainProps extends React.ClassAttributes<Main> {
 	store: Store<StoreState>;
@@ -14,8 +15,8 @@ interface IMainState {
 }
 
 export class Main extends BaseComponent<IMainProps, IMainState> {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			location: window.location.href
@@ -37,7 +38,8 @@ export class Main extends BaseComponent<IMainProps, IMainState> {
 	doRender(): React.ReactElement<{}> {
 		return (
 			<main>
-				{ this.props.children }
+				{this.props.children}
+				<ModalLayerController/>
 			</main>
 		);
 	}

@@ -1,14 +1,9 @@
-// This config is extented from webpack.config.js. We use it for development with webpack-dev-server and autoreload/refresh
-
 const webpack = require('webpack');
 const path = require("path");
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-// const mainConfig = new Config().extend("webpack.config");
-// mainConfig.module.rules = [];
 
 const devConfigExtension = {
 	entry: {
@@ -24,7 +19,6 @@ const devConfigExtension = {
 		],
 
 		app: [
-			// We are using next two entries for hot-reload
 			'webpack-dev-server/client?http://localhost:3333',
 			'webpack/hot/only-dev-server',
 			path.join(__dirname, 'App', 'Index.tsx')
@@ -37,30 +31,21 @@ const devConfigExtension = {
 	},
 
 	resolve: {
-		modules: ['node_modules', 'App', 'resources'],
-		extensions: ['.ts', '.tsx', '.js', '.sass', '.js']
+		modules: ['node_modules', 'App'],
+		extensions: ['.ts', '.tsx', '.js']
 	},
 
-	// more options here: http://webpack.github.io/docs/configuration.html#devtool
-	devtool: 'eval-source-map',
+	devtool: 'source-map',
 
 	module: {
 		rules: [
-			// {
-			//   test: /\.tsx?$/,
-			//   enforce: 'pre',
-			//   loader: 'tslint-loader',
-			//   options: { emitErrors: true },
-			//   include: path.join(__dirname, "App")
-			// },
 			{
 				test: /\.tsx?$/,
-				loaders: ["react-hot-loader", "babel-loader?cacheDirectory", "awesome-typescript-loader?tsconfig=tsconfig.webpack.json&useCache=true"]
-			},
-
-			{
-				test: /\.css$/,
-				loaders: ["style-loader", "css-loader"]
+				loaders: [
+					"react-hot-loader/webpack",
+					"babel-loader?cacheDirectory",
+					"ts-loader"
+				]
 			},
 
 			{
@@ -78,7 +63,7 @@ const devConfigExtension = {
 						{
 							loader: 'postcss-loader',
 							options: {
-								plugins: [autoprefixer({ browsers: ['last 2 versions', '> 5%'] })],
+								plugins: [autoprefixer()],
 								sourceMap: true
 							}
 						},
@@ -101,7 +86,7 @@ const devConfigExtension = {
 							loader: 'css-loader',
 							options: {
 								sourceMap: true,
-								localIdentName: '[name]__[local]___[hash:base64:5]',
+								localIdentName: '[local]___[hash:base64:5]',
 								modules: true,
 								importLoaders: true
 							}
@@ -109,7 +94,7 @@ const devConfigExtension = {
 						{
 							loader: 'postcss-loader',
 							options: {
-								plugins: [autoprefixer({ browsers: ['last 2 versions', '> 5%'] })],
+								plugins: [autoprefixer()],
 								sourceMap: true
 							}
 						},
@@ -136,7 +121,6 @@ const devConfigExtension = {
 			filename: 'vendors.js'
 		}),
 
-		// Used for hot-reload
 		new webpack.HotModuleReplacementPlugin(),
 
 		new webpack.DefinePlugin({

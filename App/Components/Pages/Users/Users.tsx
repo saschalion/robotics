@@ -19,7 +19,8 @@ import { getUsers, changeSortOrder, deleteUser } from "ActionCreators/UsersActio
 import { RolesState } from "Store/State/RolesState";
 import { getRoles } from "ActionCreators/RolesActionCreators";
 import { Header } from "./Header";
-import { UXConfirm } from "Components/UX/Confirm/Confirm";
+import {AbstractModalEditor, modalBox} from "Components/UX/ModalBox/ModalBox";
+import {ConfirmDialog} from "Components/UX/ModalBox/Dialogs/ConfirmDialog";
 
 const styles: any = require("./Users.module.sass");
 
@@ -207,9 +208,20 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 							<div
 								className={classNames(styles['users__table-btn'], styles['_icon_delete'])}
 								onClick={() => {
-									this.setState({
-										toDeleteUser: user
-									});
+									modalBox.show(
+										`Подтвердите действие`,
+										ConfirmDialog,
+										`Вы уверены, что хотите удалить пользователя <strong>${fio}</strong>?`,
+										null, {
+											okBtnCaption: "Удалить"
+										}
+									).then(() => {
+										this.props.deleteUser(user.id)
+											.then(() => {
+												this.props.getUsers();
+											})
+											.catch(() => {})
+									}).catch(() => {})
 								}}
 							/>
 						</div>
@@ -221,30 +233,6 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 			<div className={styles['users__table-body']}>
 				{items}
 			</div>
-		);
-	}
-
-	private renderConfirm(): JSX.Element {
-		if (!this.state.toDeleteUser) return null;
-		const user = this.state.toDeleteUser;
-		const fio = `${user.surname} ${user.name} ${user.middleName}`;
-		return (
-			<UXConfirm
-				text={`Вы уверены, что хотите удалить пользователя <strong>${fio}</strong>?`}
-				onComplete={() => {
-					this.props.deleteUser(user.id)
-						.then(() => {
-							this.setState({toDeleteUser: null});
-							this.props.getUsers();
-						})
-						.catch(() => {
-							this.setState({toDeleteUser: null});
-						})
-				}}
-				onCancel={() => {
-					this.setState({toDeleteUser: null});
-				}}
-			/>
 		);
 	}
 
@@ -272,7 +260,6 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 						}
 					</div>
 				</section>
-				{this.renderConfirm()}
 			</div>
 		);
 	}
@@ -285,7 +272,8 @@ function mapStateToProps(state: StoreState): IUsersProps {
 	}
 }
 
-function mapDispatchToProps(dispatch: Dispatch<{}>): IUsersProps {
+// TODO: исправить ошибку в типизации function mapDispatchToProps(dispatch: Dispatch<{}>): IUsersProps {
+function mapDispatchToProps(dispatch: any): IUsersProps {
 	return {
 		getUsers: () => dispatch(getUsers()),
 		getRoles: () => dispatch(getRoles()),

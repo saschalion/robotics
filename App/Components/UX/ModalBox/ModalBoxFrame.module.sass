@@ -1,0 +1,64 @@
+@import "../../../Global/Styles/global"
+
+.modal-box
+	background: #fff
+	box-sizing: border-box
+	box-shadow: 0 10px 20px rgba(69, 73, 106, 0.2)
+	border-radius: $border-radius
+	position: relative
+	display: flex
+	flex-direction: column
+	min-width: 327px
+	outline: 0
+
+	&__top-area
+		flex: 1 0 55px
+		display: flex
+		flex-direction: row
+		align-items: center
+		justify-content: space-between
+		margin: 0 15px
+
+		&._move
+			cursor: move
+
+	&__main-area
+		box-sizing: border-box
+		flex: 1
+		display: flex
+		flex-direction: column
+		margin: 0
+		&._kind_noPanel
+			padding-bottom: 20px
+
+	&__bottom-area
+		padding: 0 12px
+		flex: 0 0 57px
+		display: flex
+		flex-direction: row
+		align-items: center
+		justify-content: flex-end
+
+	&__top-buttons
+		display: flex
+		align-items: center
+		margin-left: 30px
+
+	&__top-buttons-item
+		+size(27px)
+		background: no-repeat 50%
+		cursor: pointer
+		border-radius: 4px
+		align-self: flex-start
+
+		&:hover
+			background-color: #E4E6EF
+
+		&._close
+			background-image: url('./resources/icon-close.svg')
+			background-size: 27px
+
+	&__title
+		color: $dark-blue-color
+		font-size: 18px
+		font-weight: bold

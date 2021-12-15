@@ -12,7 +12,7 @@ const initialState: UsersState = {
 	sortedAsc: Tools.readLocalStorage("sortedAsc", "1") == "1"
 };
 
-export default handleActions<UsersState, Server.User>({
+export default handleActions<UsersState, Server.User[]>({
 	[Actions.getChangeRouteAction.toString()]: (state, action) => {
 		return {
 			...state,
