@@ -21,7 +21,6 @@ export interface ModalBoxFrameProps extends React.ClassAttributes<ModalBoxFrame>
 }
 
 export class ModalBoxFrame extends React.PureComponent<ModalBoxFrameProps, {}> {
-
 	private readonly ref: React.RefObject<HTMLDivElement>;
 
 	constructor(props: ModalBoxFrameProps) {
@@ -57,16 +56,17 @@ export class ModalBoxFrame extends React.PureComponent<ModalBoxFrameProps, {}> {
 			buttonsPanel = (
 				<div className={styles['modal-box__bottom-area']}>
 					<UXButton
-						caption={this.props.okBtnCaption || "Ок"}
-						onClick={() => this.onOKClick()}
+						caption={"Отмена"}
+						onClick={() => this.onCancelClick()}
 						fullWidth
 					/>
 					<UXButton
-						caption={"Отмена"}
-						theme={"primary"}
-						style={{marginLeft: "10px"}}
-						onClick={() => this.onCancelClick()}
+						caption={this.props.okBtnCaption || "Ок"}
+						onClick={() => this.onOKClick()}
+						style={{marginLeft: "20px"}}
 						fullWidth
+						theme={"primary"}
+						disabled={!this.props.enabledOKButton}
 					/>
 				</div>
 			);

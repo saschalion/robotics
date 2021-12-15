@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import * as Actions from "Actions/UsersActions";
 
 import * as api from "Api/Users/Index";
+import * as Tools from "Utils/Tools";
 import * as Server from "Models/ServerInterfaces";
 
 export function getUsers(): (dispatcher: Dispatch<{}>) => Promise<{}> {
@@ -33,7 +34,28 @@ export function deleteUser(id: Server.ObjectId): (dispatcher: Dispatch<{}>) => P
 				return dispatch(Actions.deleteUserSuccessAction(response));
 			})
 			.catch((error) => {
-				return error;
+				return dispatch(Actions.deleteUserFailureAction(error));
+			});
+	};
+}
+
+export function addUser(data: Server.AddUser): (dispatcher: Dispatch<{}>) => Promise<{}> {
+	return (dispatch: Dispatch<{}>) => {
+		dispatch(Actions.addUserRequestAction());
+		const currentFullDate = Tools.getCurrentFullDate();
+		data.lastUpdate = currentFullDate;
+		data.registerDate = currentFullDate;
+		data.birthday = Tools.formatBirthday(data.birthday);
+
+		return api.addUser(data)
+			.then((result) => {
+				return JSON.parse(result.text);
+			})
+			.then((response: Server.Success) => {
+				return dispatch(Actions.addUserSuccessAction(response));
+			})
+			.catch((error) => {
+				return dispatch(Actions.addUserFailureAction(error));
 			});
 	};
 }

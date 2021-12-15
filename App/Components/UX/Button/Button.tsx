@@ -11,10 +11,12 @@ interface ButtonProps {
 	style?: React.CSSProperties;
 	fullWidth?: boolean;
 	icon?: "plus";
+	disabled?: boolean;
 }
 
 export class UXButton extends React.Component<ButtonProps, {}> {
 	private onClick(): void {
+		if (this.props.disabled) return;
 		this.props.onClick();
 	}
 
@@ -26,7 +28,8 @@ export class UXButton extends React.Component<ButtonProps, {}> {
 						styles['btn'],
 						this.props.size && styles[`_size_${this.props.size}`],
 						styles[`_theme_${this.props.theme || "default"}`],
-						this.props.fullWidth && styles['_full-width']
+						this.props.fullWidth && styles['_full-width'],
+						this.props.disabled && styles['_disabled']
 					)
 				}
 				onClick={() => this.onClick()}

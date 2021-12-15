@@ -1,0 +1,403 @@
+@import "../../../Global/Styles/global"
+
+$editorHeightLarge: 60px
+$editorHeightNormal: 32px
+$editorHeightSmall: 24px
+$textareaHeightMin: 48px
+$textareaHeightMax: 208px
+$borderWidth: 1px
+$smallFontSize: 12px
+
+$backNormalColor: #FFF
+$backDisabledColor: #f0f0f0
+$backReadOnlyColor: #f7f8f9
+$textColorReadOnly: #59676F
+$borderNormalColor: #DADCE2
+$dropdownBorderColor: #DADCE2
+$accentHoveredColor: #B5B8BD
+$accentFocusedColor: $blue-color
+$accentSuccessColor: #5cb85c
+$accentErrorColor: #FF4132
+$accentWarningColor: #f0ad4e
+$placeholderColor: #5D606C
+
+$baseLightBlue: #F7FAFC
+
+$class: editor
+
+.#{$class}
+	&__frame
+		flex: 1
+		position: relative
+		box-sizing: border-box
+		background-color: $backNormalColor
+		border: $borderWidth solid $borderNormalColor
+		border-radius: 5px
+		outline: none
+		display: flex
+		font-size: 14px
+		// вариации отрисовки рамки
+		&._style_focused
+			border-color: $accentFocusedColor
+		&._style_hovered
+			border-color: $accentHoveredColor
+		&._style_wrong
+			border-color: $accentErrorColor
+		&._style_warning
+			border-color: $accentWarningColor
+		&._style_success
+			border-color: $accentSuccessColor
+		&._style_disabled
+			background-color: $backDisabledColor
+		&._style_readOnly
+			background-color: $backReadOnlyColor !important
+
+		&._style_real-focused,
+		&._has_value
+			.#{$class}
+				&__placeholder
+					top: 8px
+					opacity: 1
+					line-height: 100%
+					font-size: 10px
+					font-weight: bold
+
+		// альтернативные размеры
+		&._size_small
+			min-height:  $editorHeightSmall
+			height: $editorHeightSmall
+			max-height: $editorHeightSmall
+			line-height: $editorHeightSmall - $borderWidth * 2
+			min-width: $editorHeightSmall * 3
+			font-size: $smallFontSize
+		&._size_large
+			min-height:  $editorHeightLarge
+			height: $editorHeightLarge
+			max-height: $editorHeightLarge
+			line-height: $editorHeightLarge - $borderWidth * 2
+			min-width: $editorHeightLarge * 3
+		&._size_middle
+			min-height: $editorHeightNormal
+			height: $editorHeightNormal
+			max-height: $editorHeightNormal
+			line-height: $editorHeightNormal - $borderWidth * 2
+			min-width: $editorHeightNormal * 3
+		&._size_max-height
+			min-height: $editorHeightNormal
+			height: 100%
+		&._transparent
+			background-color: transparent
+		// Стиль без рамок и скруглений. Используется для встраивания компонентов в другие компоненты
+		&._inline
+			border: none
+			border-radius: 0
+			height: $editorHeightNormal - $borderWidth * 2
+			max-height: $editorHeightNormal - $borderWidth * 2
+			min-height: $editorHeightNormal - $borderWidth * 2
+			background-color: transparent
+			&._size_small
+				height: $editorHeightNormal - $borderWidth * 2
+				max-height: $editorHeightNormal - $borderWidth * 2
+				min-height: $editorHeightNormal - $borderWidth * 2
+			&._size_small
+				height: $editorHeightSmall - $borderWidth * 2
+				max-height: $editorHeightSmall - $borderWidth * 2
+				min-height: $editorHeightSmall - $borderWidth * 2
+			&._size_large
+				height: $editorHeightLarge - $borderWidth * 2
+				max-height: $editorHeightLarge - $borderWidth * 2
+				min-height: $editorHeightLarge - $borderWidth * 2
+		&._textarea
+			max-height: unset
+			height: unset
+
+			.editor__input
+				resize: none
+				min-height: $textareaHeightMax
+				height: unset
+				max-height: $textareaHeightMax
+				padding: 8px 12px
+				overflow-y: auto
+				line-height: 16px
+			&._inline
+				min-height: $textareaHeightMin
+				height: auto
+				max-height: $textareaHeightMin
+				.editor__input
+					overflow: hidden
+					min-height: $textareaHeightMin
+					height: $textareaHeightMin
+					max-height: $textareaHeightMin
+				&._expanded
+					min-height: $textareaHeightMin
+					max-height: unset
+					.editor__input
+						overflow-y: auto
+						min-height: $textareaHeightMin
+						max-height: unset
+			.button
+				max-height: $editorHeightNormal
+			.hidden_div
+				position: fixed
+				left: 100vw
+				top: 0
+
+		&._expanded_full
+			max-height: unset !important
+			.editor__input
+				max-height: unset !important
+
+	&__input
+		box-sizing: border-box
+		flex: 1
+		outline: none
+		border: none
+		padding: 0 8px
+		margin: 0
+		background-color: transparent
+		min-width: 0
+		font-size: 13px
+		font-family: $font-inter
+
+		&::placeholder
+			color: $placeholderColor
+			opacity: .4
+
+		&._size_small
+			font-size: 12px
+		&._size_large
+			padding: 0 20px
+		&._style_readOnly
+			color: $textColorReadOnly
+
+	&__placeholder
+		+position(absolute, 0 null null 20px)
+		color: $placeholderColor
+		opacity: .4
+		line-height: 60px
+		transition: .3s bold
+		pointer-events: none
+
+	&__input-area
+		box-sizing: border-box
+		flex: 1
+		min-width: 0
+		margin-left: 20px
+		white-space: nowrap
+		text-overflow: ellipsis
+		overflow: hidden
+
+	&__input-area-placeholder
+		color: $placeholderColor
+		opacity: .4
+		transition: .3s top
+
+	&__drop-down
+		position: absolute
+		left: -$borderWidth
+		right: -$borderWidth
+		top: $editorHeightNormal
+		height: 300px
+		box-sizing: border-box
+		display: flex
+		flex-direction: column
+		background-color: $backNormalColor
+		border-width: $borderWidth
+		border-style: solid
+		border-color: $dropdownBorderColor
+		border-radius: 4px
+		outline: none
+		font-size: 13px
+		box-shadow: 0 4px 8px rgba(0, 15, 21, 0.12)
+		z-index: 2
+		&._size_small
+			top: $editorHeightSmall
+		&._size_large
+			top: $editorHeightLarge
+		&._bottom-position
+			top: calc(100% + 2px)
+		&._top-position
+			bottom: $editorHeightNormal
+			top: auto
+
+			&._size_small
+				bottom: $editorHeightSmall
+			&._size_large
+				bottom: $editorHeightLarge
+	&__hint
+		position: absolute
+		left: -$borderWidth
+		right: -$borderWidth
+		top: $editorHeightNormal
+		//height: auto
+		box-sizing: border-box
+		display: flex
+		flex-direction: column
+		outline: none
+		box-shadow: 0 4px 8px rgba(0, 15, 21, 0.12)
+		z-index: 2
+		background: #222D32
+		border-radius: 4px
+		color: white
+		font-size: 13px
+		line-height: 24px
+		padding: 0 8px 0 8px
+		white-space: pre-wrap
+		&._size_small
+			top: $editorHeightSmall
+		&._size_large
+			top: $editorHeightLarge
+		&._bottom-position
+			top: calc(100% + 2px)
+
+	&__block-fc
+		width: 100%
+		.editor__input
+			max-height: 50vh
+			width: 100%
+// Классы для кнопок в Edit
+.button
+	margin: 0 20px 0 0
+	box-sizing: border-box
+	flex-grow: 0
+	flex-shrink: 0
+	flex-basis: 24px //$editorHeightNormal - ($borderWidth * 2)
+	line-height: $editorHeightNormal - ($borderWidth * 2)
+	text-align: center
+	color: $borderNormalColor
+	background-repeat: no-repeat
+	background-position: center center
+	background-size: 24px 24px
+	background-color: transparent
+	// альтернативные размеры
+	&._size_small
+		line-height: $editorHeightSmall - ($borderWidth * 2)
+	&._size_large
+		line-height: $editorHeightLarge - ($borderWidth * 2)
+
+	&._kind_clear
+		&._style_focused
+			background-image: url('./resources/close-gray.svg')
+		&._style_hovered
+			background-image: url('./resources/close-gray.svg')
+		&._permanent
+			background-image: url('./resources/close-gray.svg')
+		&:not(._style_disabled)
+			cursor: pointer
+			&:hover
+				background-image: url('./resources/close-black.svg')
+	&._kind_copy_left
+		color: rgb(51,51,51)
+		background-color: rgb(238,238,238)
+		flex-basis: 45px
+		background-size: 24px 45px
+
+	&._kind_copy
+		color: #C2C5CC
+		cursor: pointer
+		display: none
+		&._style_focused
+			display: flex
+			justify-content: center
+			align-items: center
+		&._style_hovered
+			display: flex
+			justify-content: center
+			align-items: center
+		&:hover
+			color: #3C4245
+
+	&._kind_dropdown
+		transition: transform 0.3s linear
+		background-size: 12px
+		background-image: url('./resources/chevron-gray.svg')
+		&:not(._style_disabled)
+			cursor: pointer
+		&._style_hovered
+			background-image: url('./resources/chevron-black.svg')
+		&._style_focused
+			background-image: url('./resources/chevron-blue.svg')
+		&._style_dropdown
+			transform: rotate(180deg)
+		&._top-position
+			transform: rotate(180deg)
+			&._style_dropdown
+				transform: rotate(0deg)
+
+.row
+	flex: 0 0 30px //height
+	min-height: 10px
+	display: flex
+	padding: 0
+	border-bottom: $borderWidth solid $borderNormalColor
+	&:last-child
+		border-bottom: 0 solid $borderNormalColor
+	&._size_small
+		flex: 0 0 $editorHeightSmall - $borderWidth * 2
+	&._size_large
+		flex: 0 0 $editorHeightLarge - $borderWidth * 2
+
+.placeholder
+	flex: 0 0 30px //height
+	min-height: 10px
+	display: flex
+	align-items: center
+	padding-left: 8px
+	padding-right: 8px
+	font-size: 13px
+	color: $placeholderColor
+	&._size_small
+		flex: 0 0 $editorHeightSmall - $borderWidth * 2
+	&._size_large
+		flex: 0 0 $editorHeightLarge - $borderWidth * 2
+
+.container
+	display: flex
+	flex-direction: column
+	border-width: $borderWidth
+	border-style: solid
+	border-color: $borderNormalColor
+	border-radius: 4px
+	padding: 0
+	max-height: (30px + 1px) * 7 - 1px // (height + 1) * N - 1
+	min-height: $editorHeightNormal
+	overflow-y: auto
+	background-color: $backNormalColor
+	box-sizing: border-box
+	// вариации отрисовки рамки
+	&._style_focused
+		border-color: $accentFocusedColor
+	&._style_hovered
+		border-color: $accentHoveredColor
+	&._style_wrong
+		border-color: $accentErrorColor
+	&._style_disabled
+		background-color: $backDisabledColor
+	&._style_readOnly
+		background-color: $backReadOnlyColor
+	&._textarea
+		min-height: $textareaHeightMin
+		max-height: unset
+		.row
+			flex: 0 0 auto
+
+.search-result-text
+	color: #B5B8BD
+	margin-right: 4px
+	margin-left: 4px
+	white-space: nowrap
+	overflow: hidden
+.search-result-progress
+	background-color: $accentFocusedColor
+	border-bottom-left-radius: 3px
+	border-top-left-radius: 3px
+	bottom: 0
+	height: 100%
+	opacity: .1
+	pointer-events: none
+	position: absolute
+	top: 0
+	transition: all .33s
+
+	&._stateCompleted
+		border-radius: 3px

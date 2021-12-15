@@ -4,7 +4,7 @@
 	background: #fff
 	box-sizing: border-box
 	box-shadow: 0 10px 20px rgba(69, 73, 106, 0.2)
-	border-radius: $border-radius
+	border-radius: 20px
 	position: relative
 	display: flex
 	flex-direction: column
@@ -17,7 +17,7 @@
 		flex-direction: row
 		align-items: center
 		justify-content: space-between
-		margin: 0 15px
+		margin: 0 20px
 
 		&._move
 			cursor: move
@@ -32,8 +32,7 @@
 			padding-bottom: 20px
 
 	&__bottom-area
-		padding: 0 12px
-		flex: 0 0 57px
+		margin: 0 20px 20px
 		display: flex
 		flex-direction: row
 		align-items: center
@@ -51,12 +50,11 @@
 		border-radius: 4px
 		align-self: flex-start
 
-		&:hover
-			background-color: #E4E6EF
-
 		&._close
 			background-image: url('./resources/icon-close.svg')
-			background-size: 27px
+
+			&:hover
+				background-image: url('./resources/icon-close-blue.svg')
 
 	&__title
 		color: $dark-blue-color

@@ -19,8 +19,6 @@ export class ConfirmDialog extends React.Component<ConfirmDialogProps, ConfirmDi
 
 	render(): React.ReactNode {
 		const style: React.CSSProperties = {
-			borderBottom: '1px solid #DEE5EF',
-			borderTop: '1px solid #DEE5EF',
 			padding: '40px 20px',
 			minWidth: '480px',
 			maxWidth: '680px',

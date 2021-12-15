@@ -1,0 +1,99 @@
+@import "../../../Global/Styles/global"
+
+.row
+	display: flex
+	height: 60px
+	padding: 0 20px
+	font-size: 14px
+	line-height: 60px
+	white-space: nowrap
+	text-overflow: ellipsis
+	overflow: hidden
+	cursor: pointer
+	outline: none
+	border-top: 1px solid #DADCE2
+
+	&._hasIcon
+		flex-direction: row
+		align-items: center
+	&__helpIcon
+		color: #a9a9a9
+		margin-left: 4px
+
+	&__icon
+		margin: 0 4px 0 0
+
+	&__caption
+		display: inline-block
+		vertical-align: middle
+		white-space: nowrap
+		text-overflow: ellipsis
+		overflow: hidden
+	&_disabled
+		background-color: #f0f0f0
+		color: #a9a9a9
+		cursor: default
+
+	&__input
+		display: flex
+		flex-direction: row
+		align-items: center
+
+	&:hover:not(.row_disabled)
+		background-color: #E4E5EB
+
+	&:focus:not(.row_disabled), &._focused:not(.row_disabled)
+		background-color: $blue-color
+		color: #fff
+		cursor: default
+		&._multiple
+			cursor: pointer
+		&:hover:not(.row_disabled)
+			background-color: $blue-color
+			color: #fff
+
+.search
+	box-sizing: border-box
+	height: 40px
+	padding: 8px 8px 5px
+	display: flex
+	&__container
+		flex: 1
+		max-width: 260px
+		min-width: 0
+		height: 100%
+.searchExact, .selectAll
+	padding: 0 0 5px 8px
+	height: 25px
+	overflow: hidden
+.loader
+	display: flex
+	flex: 1
+	align-items: center
+	justify-content: left
+	height: 100%
+
+.placeHolder
+	color: #A9A9A9
+.id
+	color: #EC3844
+
+.selectAll
+	font-weight: bold
+
+.additionalElements
+	&__item
+		height: 24px
+		padding: 0 8px
+		line-height: 24px
+		box-sizing: border-box
+		font-size: 12px
+		cursor: pointer
+
+		&:hover
+			background-color: #E4E5EB
+
+.separator
+	border-bottom: 1px solid #ebebeb
+	margin: 4px 0
+	width: 100%

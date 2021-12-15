@@ -17,6 +17,14 @@ export const deleteUserRequestAction = createAction(DELETE_USER_REQUEST_ACTION);
 export const deleteUserSuccessAction = createAction<Server.Success>(DELETE_USER_SUCCESS_ACTION);
 export const deleteUserFailureAction = createAction<{ error: string }>(DELETE_USER_FAILURE_ACTION);
 
+export const ADD_USER_REQUEST_ACTION = 'ADD_USER_REQUEST_ACTION';
+export const ADD_USER_SUCCESS_ACTION = 'ADD_USER_SUCCESS_ACTION';
+export const ADD_USER_FAILURE_ACTION = 'ADD_USER_FAILURE_ACTION';
+
+export const addUserRequestAction = createAction(ADD_USER_REQUEST_ACTION);
+export const addUserSuccessAction = createAction<Server.Success>(ADD_USER_SUCCESS_ACTION);
+export const addUserFailureAction = createAction<{ error: string }>(ADD_USER_FAILURE_ACTION);
+
 export const CHANGED_ROUTE_ACTION = 'CHANGED_ROUTE_ACTION';
 export const getChangeRouteAction = createAction(CHANGED_ROUTE_ACTION);
 

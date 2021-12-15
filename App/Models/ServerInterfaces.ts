@@ -19,6 +19,19 @@ export interface User {
 	lastUpdate: string;
 }
 
+export interface AddUser {
+	surname: string;
+	name: string;
+	middleName: string;
+	roleId: ObjectId;
+	birthday: string;
+	birthPlace: string;
+	email: string;
+	phoneNumber: string;
+	registerDate?: string;
+	lastUpdate?: string;
+}
+
 export interface Role {
 	id: ObjectId;
 	title: string;

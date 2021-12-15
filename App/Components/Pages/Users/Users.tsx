@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Server from "Models/ServerInterfaces";
 import * as Tools from "Utils/Tools";
+import {PhoneNumberFormat} from 'google-libphonenumber';
 
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -15,12 +16,13 @@ import { Dispatch } from "redux";
 import { Loading } from "Components/Common/Loading/Loading";
 import { StoreState } from "Store/StoreState";
 import { UsersState } from "Store/State/UsersState";
-import { getUsers, changeSortOrder, deleteUser } from "ActionCreators/UsersActionCreators";
+import { getUsers, changeSortOrder, deleteUser, addUser } from "ActionCreators/UsersActionCreators";
 import { RolesState } from "Store/State/RolesState";
 import { getRoles } from "ActionCreators/RolesActionCreators";
 import { Header } from "./Header";
-import {AbstractModalEditor, modalBox} from "Components/UX/ModalBox/ModalBox";
+import {modalBox} from "Components/UX/ModalBox/ModalBox";
 import {ConfirmDialog} from "Components/UX/ModalBox/Dialogs/ConfirmDialog";
+import {AddUserDialog, AddUserDialogData} from "./Modals/AddUserDialog";
 
 const styles: any = require("./Users.module.sass");
 
@@ -29,6 +31,7 @@ interface IUsersProps {
 	users?: UsersState;
 	getRoles?: () => Promise<{}>;
 	deleteUser?: (id: Server.ObjectId) => Promise<{}>;
+	addUser?: (data: Server.AddUser) => Promise<{}>;
 	roles?: RolesState;
 	changeSortOrder?: () => Promise<{}>;
 }
@@ -55,9 +58,41 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 		}
 	}
 
+	private onAddUser(): void {
+		modalBox.show(
+			`Добавить пользователя`,
+			AddUserDialog,
+			{
+				surname: "",
+				name: "",
+				middleName: "",
+				roleId: null,
+				birthday: null,
+				birthPlace: "",
+				email: "",
+				phoneNumber: "",
+				roles: this.props.roles.items
+			},
+			null,
+			{
+				okBtnCaption: "Добавить"
+			}
+		).then((value: AddUserDialogData) => {
+			this.props.addUser(value)
+			.then(() => {
+				this.props.getUsers();
+			})
+			.catch(() => {})
+		}).catch(() => {})
+	}
+
 	private renderHeader(): JSX.Element {
 		return (
-			<Header title={"Пользователи"} buttonCaption={"Добавить нового пользователя"}/>
+			<Header
+				title={"Пользователи"}
+				buttonCaption={"Добавить нового пользователя"}
+				onButtonClick={() => this.onAddUser()}
+			/>
 		);
 	}
 
@@ -173,7 +208,10 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_birth-date'])}>
 							<div className={styles['users__table-col-inner']}>
-								<Moment format={'DD.MM.YYYY'} locale="ru" date={user.birthday} />
+								{
+									user.birthday &&
+									<Moment format={'DD.MM.YYYY'} locale="ru" date={user.birthday} />
+								}
 							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'])}>
@@ -188,7 +226,10 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_phone'])}>
 							<div className={styles['users__table-col-inner']}>
-								{user.phoneNumber}
+								{
+									user.phoneNumber &&
+									Tools.formatPhoneNumber(user.phoneNumber, PhoneNumberFormat.INTERNATIONAL)
+								}
 							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_date'])}>
@@ -279,5 +320,6 @@ function mapDispatchToProps(dispatch: any): IUsersProps {
 		getRoles: () => dispatch(getRoles()),
 		changeSortOrder: () => dispatch(changeSortOrder()),
 		deleteUser: (id) => dispatch(deleteUser(id)),
+		addUser: (data) => dispatch(addUser(data))
 	};
 }

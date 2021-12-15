@@ -8,6 +8,7 @@ const styles: any = require("./Header.module.sass");
 interface IHeaderProps {
 	title: string;
 	buttonCaption: string;
+	onButtonClick(): void;
 }
 
 export class Header extends BaseComponent<IHeaderProps, {}> {
@@ -22,7 +23,7 @@ export class Header extends BaseComponent<IHeaderProps, {}> {
 					</div>
 					<UXButton
 						caption={buttonCaption}
-						onClick={() => {}}
+						onClick={() => this.props.onButtonClick()}
 						size={"middle"}
 						icon={"plus"}
 					/>
