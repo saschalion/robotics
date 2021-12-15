@@ -6,6 +6,7 @@ import {PhoneNumberFormat} from 'google-libphonenumber';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import 'moment/locale/ru';
+import moment from 'moment';
 
 import classNames from "classnames";
 
@@ -16,7 +17,7 @@ import { Dispatch } from "redux";
 import { Loading } from "Components/Common/Loading/Loading";
 import { StoreState } from "Store/StoreState";
 import { UsersState } from "Store/State/UsersState";
-import { getUsers, changeSortOrder, deleteUser, addUser } from "ActionCreators/UsersActionCreators";
+import { getUsers, changeSortOrder, deleteUser, addUser, editUser } from "ActionCreators/UsersActionCreators";
 import { RolesState } from "Store/State/RolesState";
 import { getRoles } from "ActionCreators/RolesActionCreators";
 import { Header } from "./Header";
@@ -32,23 +33,13 @@ interface IUsersProps {
 	getRoles?: () => Promise<{}>;
 	deleteUser?: (id: Server.ObjectId) => Promise<{}>;
 	addUser?: (data: Server.AddUser) => Promise<{}>;
+	editUser?: (id: Server.ObjectId, data: Server.AddUser) => Promise<{}>;
 	roles?: RolesState;
 	changeSortOrder?: () => Promise<{}>;
 }
 
-interface IUsersState {
-	toDeleteUser?: Server.User;
-}
-
 @connect(mapStateToProps, mapDispatchToProps)
-export class Users extends CustomPage<IUsersProps, IUsersState> {
-	constructor(props: IUsersProps) {
-		super(props);
-		this.state = {
-			toDeleteUser: null
-		};
-	}
-
+export class Users extends CustomPage<IUsersProps, {}> {
 	componentDidMount() {
 		const {users, roles} = this.props;
 
@@ -83,6 +74,39 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 				this.props.getUsers();
 			})
 			.catch(() => {})
+		}).catch(() => {})
+	}
+
+	private onEditUser(user: Server.User): void {
+		const birthday = moment().date(user.birthday).locale("ru").format("DD.MM.YYYY");
+		const registerDate = moment().date(user.registerDate).locale("ru").format("DD.MM.YYYY HH:mm:ss");
+		const lastUpdate = moment().date(user.lastUpdate).locale("ru").format("DD.MM.YYYY HH:mm:ss");
+		modalBox.show(
+			`Редактировать пользователя`,
+			AddUserDialog,
+			{
+				surname: user.surname,
+				name: user.name,
+				middleName: user.middleName,
+				roleId: user.role.id,
+				birthday: birthday,
+				birthPlace: user.birthPlace,
+				email: user.email,
+				phoneNumber: (user.phoneNumber || "").replace(/[^+\d]/g, ''),
+				registerDate: registerDate,
+				lastUpdate: lastUpdate,
+				roles: this.props.roles.items
+			},
+			null,
+			{
+				okBtnCaption: "Сохранить"
+			}
+		).then((value: AddUserDialogData) => {
+			this.props.editUser(user.id, value)
+				.then(() => {
+					this.props.getUsers();
+				})
+				.catch(() => {})
 		}).catch(() => {})
 	}
 
@@ -243,7 +267,10 @@ export class Users extends CustomPage<IUsersProps, IUsersState> {
 							</div>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_edit'])}>
-							<div className={classNames(styles['users__table-btn'], styles['_icon_edit'])} />
+							<div
+								className={classNames(styles['users__table-btn'], styles['_icon_edit'])}
+								onClick={() => this.onEditUser(user)}
+							/>
 						</div>
 						<div className={classNames(styles['users__table-col'], styles['_col_delete'])}>
 							<div
@@ -320,6 +347,7 @@ function mapDispatchToProps(dispatch: any): IUsersProps {
 		getRoles: () => dispatch(getRoles()),
 		changeSortOrder: () => dispatch(changeSortOrder()),
 		deleteUser: (id) => dispatch(deleteUser(id)),
-		addUser: (data) => dispatch(addUser(data))
+		addUser: (data) => dispatch(addUser(data)),
+		editUser: (id, data) => dispatch(editUser(id, data))
 	};
 }

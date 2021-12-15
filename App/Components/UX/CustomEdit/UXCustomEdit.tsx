@@ -385,6 +385,7 @@ export class UXCustomEdit extends React.PureComponent<UXCustomEditProps, UXCusto
 					styles[componentExStyle],
 					!Tools.isStringEmpty(this.props.value || "") && styles['_has_value'],
 					this.state.focused && styles['_style_real-focused'],
+					this.props.readOnly && style['_readOnly'],
 					styles[sizeStyle])
 				}
 				style={style}

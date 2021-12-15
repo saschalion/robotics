@@ -10,7 +10,7 @@ $smallFontSize: 12px
 
 $backNormalColor: #FFF
 $backDisabledColor: #f0f0f0
-$backReadOnlyColor: #f7f8f9
+$backReadOnlyColor: #F5F6F9
 $textColorReadOnly: #59676F
 $borderNormalColor: #DADCE2
 $dropdownBorderColor: #DADCE2
@@ -52,6 +52,10 @@ $class: editor
 		&._style_readOnly
 			background-color: $backReadOnlyColor !important
 
+			.#{$class}
+				&__input
+					color: $blue-color
+
 		&._style_real-focused,
 		&._has_value
 			.#{$class}
@@ -87,7 +91,7 @@ $class: editor
 			height: 100%
 		&._transparent
 			background-color: transparent
-		// Стиль без рамок и скруглений. Используется для встраивания компонентов в другие компоненты
+
 		&._inline
 			border: none
 			border-radius: 0
@@ -107,18 +111,20 @@ $class: editor
 				height: $editorHeightLarge - $borderWidth * 2
 				max-height: $editorHeightLarge - $borderWidth * 2
 				min-height: $editorHeightLarge - $borderWidth * 2
+
 		&._textarea
 			max-height: unset
 			height: unset
 
-			.editor__input
-				resize: none
-				min-height: $textareaHeightMax
-				height: unset
-				max-height: $textareaHeightMax
-				padding: 8px 12px
-				overflow-y: auto
-				line-height: 16px
+			.#{$class}
+				&__input
+					resize: none
+					min-height: $textareaHeightMax
+					height: unset
+					max-height: $textareaHeightMax
+					padding: 8px 12px
+					overflow-y: auto
+					line-height: 16px
 			&._inline
 				min-height: $textareaHeightMin
 				height: auto

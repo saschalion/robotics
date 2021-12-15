@@ -60,6 +60,25 @@ export function addUser(data: Server.AddUser): (dispatcher: Dispatch<{}>) => Pro
 	};
 }
 
+export function editUser(id: Server.ObjectId, data: Server.AddUser): (dispatcher: Dispatch<{}>) => Promise<{}> {
+	return (dispatch: Dispatch<{}>) => {
+		dispatch(Actions.editUserRequestAction());
+		data.lastUpdate = Tools.getCurrentFullDate();
+		data.birthday = Tools.formatBirthday(data.birthday);
+
+		return api.editUser(id, data)
+			.then((result) => {
+				return JSON.parse(result.text);
+			})
+			.then((response: Server.Success) => {
+				return dispatch(Actions.editUserSuccessAction(response));
+			})
+			.catch((error) => {
+				return dispatch(Actions.editUserFailureAction(error));
+			});
+	};
+}
+
 export function changeSortOrder(): (dispatcher: Dispatch<{}>) => Promise<{}> {
 	return (dispatch: Dispatch<{}>) => {
 		return Promise.resolve(dispatch(Actions.changeSortOrderAction()));

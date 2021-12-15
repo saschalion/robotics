@@ -192,6 +192,29 @@ export class AddUserDialog extends React.Component<AddUserDialogProps, AddUserDi
 						large
 					/>
 				</UXRow>
+				{
+					this.data.registerDate && this.data.lastUpdate &&
+					<UXRow>
+						<UXRow>
+							<UXMaskedEdit
+								placeHolder={"Дата регистрации"}
+								onChange={(value) => {}}
+								mask="99.99.9999 99:99:99"
+								value={this.data.registerDate}
+								large
+								readOnly
+							/>
+							<UXMaskedEdit
+								placeHolder={"Последнее изменение"}
+								onChange={(value) => {}}
+								mask="99.99.9999 99:99:99"
+								value={this.data.lastUpdate}
+								large
+								readOnly
+							/>
+						</UXRow>
+					</UXRow>
+				}
 			</div>
 		);
 	}

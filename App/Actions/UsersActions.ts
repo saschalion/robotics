@@ -25,6 +25,14 @@ export const addUserRequestAction = createAction(ADD_USER_REQUEST_ACTION);
 export const addUserSuccessAction = createAction<Server.Success>(ADD_USER_SUCCESS_ACTION);
 export const addUserFailureAction = createAction<{ error: string }>(ADD_USER_FAILURE_ACTION);
 
+export const EDIT_USER_REQUEST_ACTION = 'EDIT_USER_REQUEST_ACTION';
+export const EDIT_USER_SUCCESS_ACTION = 'EDIT_USER_SUCCESS_ACTION';
+export const EDIT_USER_FAILURE_ACTION = 'EDIT_USER_FAILURE_ACTION';
+
+export const editUserRequestAction = createAction(EDIT_USER_REQUEST_ACTION);
+export const editUserSuccessAction = createAction<Server.Success>(EDIT_USER_SUCCESS_ACTION);
+export const editUserFailureAction = createAction<{ error: string }>(EDIT_USER_FAILURE_ACTION);
+
 export const CHANGED_ROUTE_ACTION = 'CHANGED_ROUTE_ACTION';
 export const getChangeRouteAction = createAction(CHANGED_ROUTE_ACTION);
 

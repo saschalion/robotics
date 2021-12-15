@@ -129,8 +129,10 @@ export class UXMaskedEdit extends React.Component<UXMaskedEditProps, UXMaskedEdi
 			componentExStyle = '_style_disabled';
 			actionButtonExStyle = '_style_disabled';
 		} else if (this.state.focused) {
-			componentExStyle = '_style_focused';
-			actionButtonExStyle = '_style_focused';
+			if (!this.props.readOnly) {
+				componentExStyle = '_style_focused';
+				actionButtonExStyle = '_style_focused';
+			}
 		} else if (this.props.wrong) {
 			componentExStyle = '_style_wrong';
 			actionButtonExStyle = '_style_wrong';
@@ -138,6 +140,12 @@ export class UXMaskedEdit extends React.Component<UXMaskedEditProps, UXMaskedEdi
 			componentExStyle = '_style_hovered';
 			actionButtonExStyle = '_style_hovered';
 		}
+
+		if (this.props.readOnly) {
+			componentExStyle = '_style_readOnly';
+			actionButtonExStyle = '_style_readOnly';
+		}
+
 		// Стиль размера контрола
 		let sizeStyle: string = '_size_middle';
 		if (this.props.small) {
@@ -159,7 +167,7 @@ export class UXMaskedEdit extends React.Component<UXMaskedEditProps, UXMaskedEdi
 					this.props.inline && styles['_inline'],
 					styles[componentExStyle],
 					!Tools.isStringEmpty(this.props.value || "") && styles['_has_value'],
-					this.state.focused && styles['_style_real-focused'],
+					this.state.focused && !this.props.readOnly  && styles['_style_real-focused'],
 					styles[sizeStyle])
 				}
 				style={style}

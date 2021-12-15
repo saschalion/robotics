@@ -1,4 +1,4 @@
-import { request, API, headers } from "Api/Config";
+import {request, API, headers} from "Api/Config";
 import * as Server from "Models/ServerInterfaces";
 
 export const getItems = () => {
@@ -11,4 +11,8 @@ export const deleteUser = (id: Server.ObjectId) => {
 
 export const addUser = (data: Server.AddUser) => {
 	return request.post(`${ API }/users`).send(data).use(headers).end();
+};
+
+export const editUser = (id: Server.ObjectId, data: Server.AddUser) => {
+	return request.put(`${ API }/users/${id}`).send(data).use(headers).end();
 };
